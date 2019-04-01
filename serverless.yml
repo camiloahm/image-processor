@@ -1,0 +1,31 @@
+service: image-processor
+
+frameworkVersion: ">=1.2.0 <2.0.0"
+
+provider:
+  name: aws
+  runtime: java8
+
+package:
+  artifact: target/image-processor-0.0.1.jar
+
+functions:
+  currentTime:
+    handler: com.image.StreamLambdaHandler
+    events:
+      - http:
+          path: /{proxy+}
+          method: any
+          contentHandling: CONVERT_TO_BINARY
+
+environment:
+  images.s3.region=us-east-1
+  images.s3.bucket=camiloimgbucket
+
+plugins:
+  - serverless-apigw-binary
+
+custom:
+  apigwBinary:
+    types:
+      - '*/*'
