@@ -2,8 +2,9 @@
 package com.image.filter;
 
 import com.amazonaws.serverless.proxy.RequestReader;
-import com.amazonaws.serverless.proxy.model.ApiGatewayRequestContext;
+import com.amazonaws.serverless.proxy.model.AwsProxyRequestContext;
 import com.image.StreamLambdaHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,10 +21,9 @@ import java.io.IOException;
  * and stores the value in a request attribute. The filter is registered with aws-serverless-java-container
  * in the onStartup method from the {@link StreamLambdaHandler} class.
  */
+@Slf4j
 public class CognitoIdentityFilter implements Filter {
     public static final String COGNITO_IDENTITY_ATTRIBUTE = "com.amazonaws.serverless.cognitoId";
-
-    private static Logger log = LoggerFactory.getLogger(CognitoIdentityFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig)
@@ -39,12 +39,12 @@ public class CognitoIdentityFilter implements Filter {
             log.warn("API Gateway context is null");
             filterChain.doFilter(servletRequest, servletResponse);
         }
-        if (!ApiGatewayRequestContext.class.isAssignableFrom(apiGwContext.getClass())) {
+        if (!AwsProxyRequestContext.class.isAssignableFrom(apiGwContext.getClass())) {
             log.warn("API Gateway context object is not of valid type");
             filterChain.doFilter(servletRequest, servletResponse);
         }
 
-        ApiGatewayRequestContext ctx = (ApiGatewayRequestContext) apiGwContext;
+        AwsProxyRequestContext ctx = (AwsProxyRequestContext) apiGwContext;
         if (ctx.getIdentity() == null) {
             log.warn("Identity context is null");
             filterChain.doFilter(servletRequest, servletResponse);
