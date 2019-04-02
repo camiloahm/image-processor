@@ -48,7 +48,7 @@ public class ImageController extends RestResponseExceptionHandler {
             path = "/image/health",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<String> healthCheck() {
-        return ResponseEntity.ok("UP");
+        return ResponseEntity.ok("UP2");
     }
 
     @GetMapping(

@@ -10,7 +10,7 @@ Resources:
     Properties:
       Handler: com.image.StreamLambdaHandler::handleRequest
       Runtime: java8
-      CodeUri: s3://img-processor-s3/d62521023e7481c90a2b731d3e2b99a7
+      CodeUri: s3://img-processor-s3/9caa39c4ac7dcf10170f5350e0b16099
       MemorySize: 1512
       Policies: AWSLambdaBasicExecutionRole
       Timeout: 60

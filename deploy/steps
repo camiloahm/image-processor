@@ -1,6 +1,8 @@
 mvn package
 
-aws cloudformation package --template-file sam.yaml --output-template-file output-sam.yaml --s3-bucket camiloimgbucket
+aws cloudformation package --template-file sam.yaml --output-template-file output-sam.yaml --s3-bucket img-processor-s3
 
 aws cloudformation deploy --template-file output-sam.yaml --stack-name ImageProcessorStack --capabilities CAPABILITY_IAM
+
+aws cloudformation describe-stacks --stack-name ImageProcessorStack
 
