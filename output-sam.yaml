@@ -1,19 +1,16 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Image Processor
-
 Globals:
   Api:
-    # API Gateway regional endpoints
     EndpointConfiguration: REGIONAL
-
 Resources:
   ImageProcessorStoreFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: com.image.StreamLambdaHandler::handleRequest
       Runtime: java8
-      CodeUri: target/image-processor-0.0.1-lambda-package.zip
+      CodeUri: s3://img-processor-s3/537cb45f67f1b563ff343af32bb20a93
       MemorySize: 1512
       Policies: AWSLambdaBasicExecutionRole
       Timeout: 60
@@ -23,10 +20,10 @@ Resources:
           Properties:
             Path: /{proxy+}
             Method: any
-
 Outputs:
   ImageProcessorStoreApi:
     Description: healthcheck URL for application
-    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/image/health'
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/image/health
     Export:
       Name: ImageProcessor

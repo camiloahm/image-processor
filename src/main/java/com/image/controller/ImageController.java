@@ -45,18 +45,21 @@ public class ImageController extends RestResponseExceptionHandler {
     }
 
     @GetMapping(
-            path = "/image/healthcheck",
+            path = "/image/health",
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public String healthCheck() {
-        return "OK";
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.ok("UP");
     }
 
     @GetMapping(
             path = "/image",
             produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
-    public ResponseEntity<byte[]> processImage(@RequestParam("client") String client,
-            @RequestParam("size") String size,
-            @RequestParam("id") String imageId) {
+    public ResponseEntity<byte[]> processImage(@RequestParam("key") String key) {
+
+        String[] keyParams = key.split("/");
+        String client = keyParams[0];
+        String size = keyParams[1];
+        String imageId = keyParams[2];
 
         Preconditions.checkArgument(sizePattern.matcher(size).matches(), "Size is not correct");
 
