@@ -6,3 +6,4 @@ aws cloudformation deploy --template-file output-sam.yaml --stack-name ImageProc
 
 aws cloudformation describe-stacks --stack-name ImageProcessorStack
 
+
